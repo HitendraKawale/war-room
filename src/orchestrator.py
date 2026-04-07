@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+from src.agents.coordinator_agent import CoordinatorAgent
+from src.agents.data_analyst_agent import DataAnalystAgent
+from src.agents.marketing_agent import MarketingAgent
+from src.agents.pm_agent import PMAgent
+from src.agents.risk_critic_agent import RiskCriticAgent
 from src.state import WarRoomState
 from src.tools.feedback_tools import analyze_feedback
 from src.tools.metrics_tools import analyze_metric_trends, evaluate_guardrails
@@ -84,21 +89,71 @@ class WarRoomOrchestrator:
             "guardrails_report": guardrails_report,
             "feedback_report": feedback_report,
         }
+
         state["agent_outputs"] = {}
+
+        agents = [
+            PMAgent(),
+            DataAnalystAgent(),
+            MarketingAgent(),
+            RiskCriticAgent(),
+        ]
+
+        for agent in agents:
+            trace.append(
+                trace_event(
+                    step=agent.name,
+                    event_type="start",
+                    summary=f"Running {agent.name} analysis.",
+                )
+            )
+            output = agent.run(state)
+            state["agent_outputs"][agent.name] = output
+            trace.append(
+                trace_event(
+                    step=agent.name,
+                    event_type="end",
+                    summary=f"{agent.name} completed with stance={output['stance']}.",
+                )
+            )
+
+        coordinator = CoordinatorAgent()
+        trace.append(
+            trace_event(
+                step=coordinator.name,
+                event_type="start",
+                summary="Running coordinator synthesis.",
+            )
+        )
+        coordinator_output = coordinator.run(state)
+        state["agent_outputs"][coordinator.name] = coordinator_output
+        trace.append(
+            trace_event(
+                step=coordinator.name,
+                event_type="end",
+                summary=f"Coordinator produced draft decision={coordinator_output['draft_decision']}.",
+            )
+        )
+
         state["final_output"] = {
-            "status": "tools_complete_agents_pending",
-            "message": "Deterministic tool layer completed successfully.",
-            "metrics_overall_health": metrics_report["overall_health"],
-            "recommended_decision_floor": guardrails_report["recommended_decision_floor"],
-            "negative_feedback_count": feedback_report["sentiment_counts"]["negative"],
-            "repeated_issues": feedback_report["repeated_issues"],
+            "status": "agents_complete_decision_engine_pending",
+            "message": "Cross-functional agents completed successfully.",
+            "draft_decision": coordinator_output["draft_decision"],
+            "coordinator_confidence": coordinator_output["confidence"],
+            "agent_stances": {
+                name: output["stance"]
+                for name, output in state["agent_outputs"].items()
+                if "stance" in output
+            },
+            "rationale": coordinator_output["rationale"],
+            "dissent": coordinator_output["dissent"],
         }
 
         trace.append(
             trace_event(
                 step="orchestrator",
                 event_type="end",
-                summary="Tool layer run completed successfully.",
+                summary="Agent layer run completed successfully.",
             )
         )
         return state

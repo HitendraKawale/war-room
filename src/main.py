@@ -33,22 +33,15 @@ def main() -> None:
     print(f"Configured feature: {thresholds['launch']['feature_name']}")
     print(f"Model configured: {settings.model_name}")
 
-    print("\nCurrent final output:")
+    print("\n=== Final Output ===")
     print(json.dumps(final_state["final_output"], indent=2))
 
-    tool_outputs = final_state.get("tool_outputs", {})
+    print("\n=== Agent Outputs ===")
+    for agent_name, output in final_state["agent_outputs"].items():
+        print(f"\n--- {agent_name} ---")
+        print(json.dumps(output, indent=2))
 
-    if tool_outputs:
-        print("\n=== Metrics Summary ===")
-        print(json.dumps(tool_outputs["metrics_report"], indent=2))
-
-        print("\n=== Guardrails Summary ===")
-        print(json.dumps(tool_outputs["guardrails_report"], indent=2))
-
-        print("\n=== Feedback Summary ===")
-        print(json.dumps(tool_outputs["feedback_report"], indent=2))
-
-    print("\nTrace:")
+    print("\n=== Trace ===")
     for event in final_state["trace"]:
         print(json.dumps(event, indent=2))
 
@@ -58,7 +51,11 @@ def main() -> None:
         json.dumps(final_state["tool_outputs"], indent=2),
         encoding="utf-8",
     )
-    (outputs_dir / "scaffold_trace.json").write_text(
+    (outputs_dir / "agent_outputs.json").write_text(
+        json.dumps(final_state["agent_outputs"], indent=2),
+        encoding="utf-8",
+    )
+    (outputs_dir / "trace.json").write_text(
         json.dumps(final_state["trace"], indent=2),
         encoding="utf-8",
     )
