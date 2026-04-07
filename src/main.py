@@ -32,8 +32,21 @@ def main() -> None:
     print(f"Loaded feedback entries: {len(feedback)}")
     print(f"Configured feature: {thresholds['launch']['feature_name']}")
     print(f"Model configured: {settings.model_name}")
+
     print("\nCurrent final output:")
     print(json.dumps(final_state["final_output"], indent=2))
+
+    tool_outputs = final_state.get("tool_outputs", {})
+
+    if tool_outputs:
+        print("\n=== Metrics Summary ===")
+        print(json.dumps(tool_outputs["metrics_report"], indent=2))
+
+        print("\n=== Guardrails Summary ===")
+        print(json.dumps(tool_outputs["guardrails_report"], indent=2))
+
+        print("\n=== Feedback Summary ===")
+        print(json.dumps(tool_outputs["feedback_report"], indent=2))
 
     print("\nTrace:")
     for event in final_state["trace"]:
@@ -41,6 +54,10 @@ def main() -> None:
 
     outputs_dir = Path(settings.outputs_dir)
     outputs_dir.mkdir(parents=True, exist_ok=True)
+    (outputs_dir / "tool_outputs.json").write_text(
+        json.dumps(final_state["tool_outputs"], indent=2),
+        encoding="utf-8",
+    )
     (outputs_dir / "scaffold_trace.json").write_text(
         json.dumps(final_state["trace"], indent=2),
         encoding="utf-8",
@@ -49,3 +66,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
