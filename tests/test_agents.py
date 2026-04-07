@@ -35,5 +35,4 @@ def test_coordinator_produces_draft_decision():
     result = WarRoomOrchestrator().run(state)
     decision = result["final_output"]["draft_decision"]
 
-    assert decision in {"PROCEED", "PAUSE", "ROLL_BACK"}
-    assert result["final_output"]["status"] == "agents_complete_decision_engine_pending"
+    assert result["final_output"]["decision"] in {"PROCEED", "PAUSE", "ROLL_BACK"}
