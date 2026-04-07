@@ -1,0 +1,30 @@
+{"id":"fb_01","date":"2026-04-06","channel":"in_app_survey","segment":"new_user","text":"Checkout felt faster than before and I liked the suggested bundle."}
+{"id":"fb_02","date":"2026-04-06","channel":"app_store","segment":"existing_user","text":"Nice idea but the screen took a second too long to load."}
+{"id":"fb_03","date":"2026-04-06","channel":"zendesk","segment":"existing_user","text":"The new checkout froze once, then worked on retry."}
+{"id":"fb_04","date":"2026-04-06","channel":"twitter","segment":"existing_user","text":"Actually pretty smooth. I finished my order in fewer taps."}
+{"id":"fb_05","date":"2026-04-07","channel":"zendesk","segment":"premium_user","text":"Payment failed twice before going through."}
+{"id":"fb_06","date":"2026-04-07","channel":"in_app_survey","segment":"new_user","text":"I like the recommendations, they were relevant."}
+{"id":"fb_07","date":"2026-04-07","channel":"support_chat","segment":"existing_user","text":"Why does checkout keep spinning at the final step?"}
+{"id":"fb_08","date":"2026-04-07","channel":"app_store","segment":"existing_user","text":"The app feels heavier after the update."}
+{"id":"fb_09","date":"2026-04-07","channel":"twitter","segment":"existing_user","text":"The bundle suggestions are useful, but loading is noticeably slower."}
+{"id":"fb_10","date":"2026-04-07","channel":"zendesk","segment":"premium_user","text":"I was charged after a delay and got no confirmation for 3 minutes."}
+{"id":"fb_11","date":"2026-04-08","channel":"support_chat","segment":"existing_user","text":"Checkout crashed when I edited the shipping address."}
+{"id":"fb_12","date":"2026-04-08","channel":"app_store","segment":"existing_user","text":"This update is buggy. Twice the app closed during payment."}
+{"id":"fb_13","date":"2026-04-08","channel":"zendesk","segment":"new_user","text":"Could not complete my first purchase. Not a great first impression."}
+{"id":"fb_14","date":"2026-04-08","channel":"in_app_survey","segment":"existing_user","text":"Love the faster layout, hate the lag."}
+{"id":"fb_15","date":"2026-04-08","channel":"support_chat","segment":"premium_user","text":"The final pay button did nothing for about 10 seconds."}
+{"id":"fb_16","date":"2026-04-08","channel":"twitter","segment":"existing_user","text":"Smart suggestions are cool, but not if checkout keeps failing."}
+{"id":"fb_17","date":"2026-04-08","channel":"zendesk","segment":"existing_user","text":"I had to retry payment three times."}
+{"id":"fb_18","date":"2026-04-08","channel":"community_forum","segment":"existing_user","text":"Screen freeze on Android when coupon applied."}
+{"id":"fb_19","date":"2026-04-09","channel":"in_app_survey","segment":"new_user","text":"The recommendations helped me find accessories I actually wanted."}
+{"id":"fb_20","date":"2026-04-09","channel":"support_chat","segment":"existing_user","text":"Still slow, but better today than yesterday."}
+{"id":"fb_21","date":"2026-04-09","channel":"app_store","segment":"existing_user","text":"App no longer crashes every time, but payment is still flaky."}
+{"id":"fb_22","date":"2026-04-09","channel":"zendesk","segment":"premium_user","text":"Please revert this for now. My team cannot check out reliably."}
+{"id":"fb_23","date":"2026-04-09","channel":"twitter","segment":"existing_user","text":"I do like the new bundled offers."}
+{"id":"fb_24","date":"2026-04-09","channel":"community_forum","segment":"existing_user","text":"The new design is cleaner, just optimize the loading time."}
+{"id":"fb_25","date":"2026-04-10","channel":"in_app_survey","segment":"new_user","text":"Worked fine for me today and the flow was easy."}
+{"id":"fb_26","date":"2026-04-10","channel":"support_chat","segment":"existing_user","text":"Payment succeeded today after failing yesterday, so maybe you fixed something."}
+{"id":"fb_27","date":"2026-04-10","channel":"app_store","segment":"existing_user","text":"Still slower than old checkout, but not unusable anymore."}
+{"id":"fb_28","date":"2026-04-08","channel":"twitter","segment":"outlier","text":"This update deleted my entire order history."}
+{"id":"fb_29","date":"2026-04-08","channel":"community_forum","segment":"outlier","text":"I think the app is listening to my microphone because recommendations are too accurate."}
+{"id":"fb_30","date":"2026-04-09","channel":"zendesk","segment":"outlier","text":"I was charged four times and locked out of my account permanently."}
