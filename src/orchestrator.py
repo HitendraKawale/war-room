@@ -5,6 +5,7 @@ from src.agents.data_analyst_agent import DataAnalystAgent
 from src.agents.marketing_agent import MarketingAgent
 from src.agents.pm_agent import PMAgent
 from src.agents.risk_critic_agent import RiskCriticAgent
+from src.decision_engine import build_final_decision
 from src.state import WarRoomState
 from src.tools.feedback_tools import analyze_feedback
 from src.tools.metrics_tools import analyze_metric_trends, evaluate_guardrails
@@ -135,25 +136,34 @@ class WarRoomOrchestrator:
             )
         )
 
-        state["final_output"] = {
-            "status": "agents_complete_decision_engine_pending",
-            "message": "Cross-functional agents completed successfully.",
-            "draft_decision": coordinator_output["draft_decision"],
-            "coordinator_confidence": coordinator_output["confidence"],
-            "agent_stances": {
-                name: output["stance"]
-                for name, output in state["agent_outputs"].items()
-                if "stance" in output
-            },
-            "rationale": coordinator_output["rationale"],
-            "dissent": coordinator_output["dissent"],
-        }
+        trace.append(
+            trace_event(
+                step="decision_engine",
+                event_type="start",
+                summary="Building final structured launch decision.",
+            )
+        )
+        final_output = build_final_decision(
+            tool_outputs=state["tool_outputs"],
+            agent_outputs=state["agent_outputs"],
+        )
+        state["final_output"] = final_output
+        trace.append(
+            trace_event(
+                step="decision_engine",
+                event_type="end",
+                summary=(
+                    "Final structured decision completed with "
+                    f"decision={final_output['decision']} confidence={final_output['confidence']}."
+                ),
+            )
+        )
 
         trace.append(
             trace_event(
                 step="orchestrator",
                 event_type="end",
-                summary="Agent layer run completed successfully.",
+                summary="End-to-end war room run completed successfully.",
             )
         )
         return state

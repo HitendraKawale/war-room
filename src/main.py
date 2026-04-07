@@ -33,13 +33,17 @@ def main() -> None:
     print(f"Configured feature: {thresholds['launch']['feature_name']}")
     print(f"Model configured: {settings.model_name}")
 
-    print("\n=== Final Output ===")
+    print("\n=== Final Structured Output ===")
     print(json.dumps(final_state["final_output"], indent=2))
 
-    print("\n=== Agent Outputs ===")
+    print("\n=== Agent Stances ===")
     for agent_name, output in final_state["agent_outputs"].items():
-        print(f"\n--- {agent_name} ---")
-        print(json.dumps(output, indent=2))
+        if "stance" in output:
+            print(f"{agent_name}: {output['stance']} (confidence={output['confidence']})")
+        else:
+            print(
+                f"{agent_name}: draft_decision={output['draft_decision']} (confidence={output['confidence']})"
+            )
 
     print("\n=== Trace ===")
     for event in final_state["trace"]:
@@ -55,6 +59,10 @@ def main() -> None:
         json.dumps(final_state["agent_outputs"], indent=2),
         encoding="utf-8",
     )
+    (outputs_dir / "final_decision.json").write_text(
+        json.dumps(final_state["final_output"], indent=2),
+        encoding="utf-8",
+    )
     (outputs_dir / "trace.json").write_text(
         json.dumps(final_state["trace"], indent=2),
         encoding="utf-8",
@@ -63,4 +71,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
