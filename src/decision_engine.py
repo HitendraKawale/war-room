@@ -67,7 +67,6 @@ def build_rationale(
     agent_outputs: dict[str, Any],
     final_decision: str,
 ) -> list[str]:
-    metrics_report = tool_outputs["metrics_report"]
     feedback_report = tool_outputs["feedback_report"]
     guardrails_report = tool_outputs["guardrails_report"]
 
@@ -363,3 +362,4 @@ def build_final_decision(
     )
 
     return payload.model_dump()
+
