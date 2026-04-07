@@ -28,6 +28,7 @@ def compute_confidence(
 ) -> float:
     metrics_report = tool_outputs["metrics_report"]
     feedback_report = tool_outputs["feedback_report"]
+    guardrails_report = tool_outputs["guardrails_report"]
 
     agent_confidences = [
         output["confidence"]
@@ -41,18 +42,24 @@ def compute_confidence(
         for name, output in agent_outputs.items()
         if name != "coordinator" and "stance" in output
     ]
-    disagreement_penalty = 0.08 if len(set(stance_values)) > 1 else 0.0
+    disagreement_penalty = 0.05 if len(set(stance_values)) > 1 else 0.0
 
     evidence_bonus = 0.0
     if metrics_report["status_counts"]["red"] >= 1:
-        evidence_bonus += 0.05
+        evidence_bonus += 0.03
     if feedback_report["repeated_issues"]:
-        evidence_bonus += 0.04
-    if final_decision == tool_outputs["guardrails_report"]["recommended_decision_floor"]:
-        evidence_bonus += 0.05
+        evidence_bonus += 0.03
+    if final_decision == guardrails_report["recommended_decision_floor"]:
+        evidence_bonus += 0.03
+    if len(guardrails_report["rollback_triggers"]) > 0:
+        evidence_bonus += 0.02
+    elif len(guardrails_report["pause_triggers"]) > 0:
+        evidence_bonus += 0.02
 
     confidence = avg_agent_conf - disagreement_penalty + evidence_bonus
-    return round(max(0.05, min(0.95, confidence)), 2)
+
+    # Cap confidence lower so mixed-signal launch decisions do not look overconfident
+    return round(max(0.05, min(0.90, confidence)), 2)
 
 
 def build_rationale(
@@ -356,4 +363,3 @@ def build_final_decision(
     )
 
     return payload.model_dump()
-

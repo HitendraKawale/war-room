@@ -39,3 +39,11 @@ def test_action_plan_is_non_empty():
     assert len(actions) >= 3
     assert all("owner" in item for item in actions)
     assert all("task" in item for item in actions)
+
+
+def test_confidence_is_reasonable():
+    result = WarRoomOrchestrator().run(build_state())
+    confidence = result["final_output"]["confidence"]
+
+    assert 0.5 <= confidence <= 0.9
+
