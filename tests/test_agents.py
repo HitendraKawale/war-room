@@ -33,6 +33,6 @@ def test_coordinator_produces_draft_decision():
     }
 
     result = WarRoomOrchestrator().run(state)
-    decision = result["final_output"]["draft_decision"]
+    decision = result["final_output"]["decision"]
 
-    assert result["final_output"]["decision"] in {"PROCEED", "PAUSE", "ROLL_BACK"}
+    assert decision in {"PROCEED", "PAUSE", "ROLL_BACK"}
