@@ -1,0 +1,27 @@
+launch:
+  feature_name: "Smart Checkout Assistant"
+  launch_date: "2026-04-06"
+  rollout_percent: 35
+
+decision_rules:
+  rollback:
+    payment_success_pct_below: 95.5
+    crash_rate_pct_above: 1.5
+    p95_latency_ms_above: 1800
+  pause:
+    payment_success_pct_below: 97.0
+    crash_rate_pct_above: 0.8
+    p95_latency_ms_above: 1100
+    support_ticket_multiplier_above: 1.75
+
+metric_direction:
+  signup_conversion_pct: "higher_is_better"
+  dau: "higher_is_better"
+  wau: "higher_is_better"
+  d1_retention_pct: "higher_is_better"
+  crash_rate_pct: "lower_is_better"
+  p95_latency_ms: "lower_is_better"
+  payment_success_pct: "higher_is_better"
+  support_tickets: "lower_is_better"
+  feature_adoption_pct: "higher_is_better"
+  churn_pct: "lower_is_better"
